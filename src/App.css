@@ -190,32 +190,98 @@ body {
 /* =========================================
    Responsive Design
    ========================================= */
+/* src/App.css - ปรับปรุงส่วน Responsive สำหรับมือถือใหม่ทั้งหมด */
+
+/* =========================================
+   Responsive Design (ปรับหน้าจอสำหรับมือถือและแท็บเล็ต)
+   * โค้ดชุดใหม่ เน้นความสะอาดตาและการจัดวางที่สมดุล *
+   ========================================= */
+
 @media (max-width: 768px) {
+  
+  /* ปรับระยะห่างของเนื้อหาหลัก */
+  .main-content {
+    padding: 30px 10px; /* ลดระยะห่างบน-ล่างชั่วคราวเพื่อให้เห็น Footer พอดี */
+  }
+
+  /* --- ปรับปรุง Header ชนิดจัดเต็ม --- */
   .header {
+    flex-direction: column; /* เปลี่ยนการเรียงจากแนวนอนเป็นแนวตั้ง */
+    align-items: center; /* จัดกึ่งกลาง */
+    text-align: center;
     padding: 15px 20px;
-    flex-direction: column;
-    gap: 15px;
+    gap: 10px; /* ลดระยะห่างระหว่างกลุ่ม */
+    border-bottom: 2px solid var(--tsn-yellow); /* เส้นเหลืองบางลงนิดนึง */
+  }
+
+  .logo-container {
+    flex-direction: column; /* Stack logo และ title */
+    align-items: center;
+    gap: 8px; /* ระยะห่างสม่ำเสมอ */
   }
 
   .school-logo {
-    height: 50px;
+    height: 48px; /* ลดขนาดโลโก้ลงชั่วคราว */
+    margin: 0;
   }
 
   .website-title {
-    font-size: 24px;
+    font-size: 20px; /* ลดขนาดฟอนต์ให้พอดีบรรทัด */
+    line-height: 1.2;
+    font-family: 'Poppins', sans-serif;
   }
 
+  /* ปรับ Badget "ม.6 สังคมศึกษา" ให้ดูเป็นส่วนหนึ่งของ Header */
   .class-info {
-    font-size: 16px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 5px 12px;
+    margin-top: 2px; /* ดึงให้ลงมาใกล้ title นิดนึง */
   }
 
+  /* --- ปรับปรุง Login Card --- */
   .login-card {
-    padding: 40px 25px;
+    padding: 35px 25px; /* ปรับ Padding ให้ดูพอดี proportion */
+    width: 92%; /* ให้ขยายเกือบเต็มหน้าจอ */
+    border-radius: 15px;
+    margin: 20px auto; /* เพิ่มระยะห่างบน-ล่างให้ Card ไม่ดูเบียด */
   }
 
   .card-title {
-    font-size: 22px;
+    font-size: 19px;
+  }
+
+  .card-instructions {
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-size: 14px;
+    color: var(--tsn-green);
+  }
+
+  .login-input {
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  .login-button {
+    font-size: 15px;
+    padding: 12px;
+  }
+}
+
+/* เพิ่มกฎสำหรับมือถือหน้าจอเล็กมาก (เช่น iPhone SE) */
+@media (max-width: 375px) {
+  .website-title {
+    font-size: 18px;
+  }
+  .card-title {
+    font-size: 18px;
   }
 }
 /* =========================================
