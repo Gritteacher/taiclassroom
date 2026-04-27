@@ -17,10 +17,20 @@ function App() {
     tasks: []
   });
 
-  const handleLogin = async () => {
+const handleLogin = async () => {
     if (studentId.length === 5) {
       
-      // 1. ดึงข้อมูลประวัตินักเรียน
+      // 1. เรียกแอนิเมชัน Loading ของ SweetAlert2 ขึ้นมาทันทีที่กดปุ่ม
+      Swal.fire({
+        title: 'กำลังค้นหาข้อมูล...',
+        html: 'โปรดรอสักครู่ครับ ⏳',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      // 2. ดึงข้อมูลประวัตินักเรียนจาก Supabase
       const { data: student, error: studentError } = await supabase
         .from('students')
         .select('*')
@@ -28,34 +38,39 @@ function App() {
         .single(); 
 
       if (student) {
-        // แจ้งเตือนล็อกอินสำเร็จ
-        Swal.fire({
-          title: 'เข้าสู่ระบบสำเร็จ!',
-          text: `ยินดีต้อนรับ ${student.full_name}`,
-          icon: 'success',
-          timer: 1500,
-          showConfirmButton: false
-        });
-
-        // 2. ดึงข้อมูลคะแนน, การเข้าเรียน, และภาระงาน ไปพร้อมๆ กัน
+        // 3. ดึงข้อมูลคะแนน, การเข้าเรียน, และภาระงาน (ทำพร้อมกันเพื่อความรวดเร็ว)
         const [scoresRes, attRes, tasksRes] = await Promise.all([
           supabase.from('scores').select('*').eq('student_id', studentId),
           supabase.from('attendance').select('*').eq('student_id', studentId).single(),
           supabase.from('tasks').select('*').eq('student_id', studentId)
         ]);
 
-        // นำข้อมูลที่ดึงได้มาเก็บไว้ใน State
         setDashboardData({
           scores: scoresRes.data || [],
           attendance: attRes.data || { absent_count: 0, leave_count: 0, late_count: 0 },
           tasks: tasksRes.data || []
         });
 
-        // บันทึกว่าล็อกอินผ่านแล้ว เพื่อให้เปลี่ยนหน้า
-        setLoggedInStudent(student);
+        // 4. เปลี่ยนจากหน้า Loading เป็นหน้า Success อัตโนมัติ
+        Swal.fire({
+          title: 'เข้าสู่ระบบสำเร็จ!',
+          text: `ยินดีต้อนรับ ${student.full_name}`,
+          icon: 'success',
+          timer: 1500, // โชว์ 1.5 วินาทีแล้วปิดเอง
+          showConfirmButton: false
+        }).then(() => {
+          // โชว์แอนิเมชันเสร็จ ค่อยพาเข้าหน้า Dashboard
+          setLoggedInStudent(student);
+        });
 
       } else {
-        Swal.fire('ไม่พบข้อมูล!', 'ไม่มีรหัสนักเรียนนี้ในระบบครับ', 'error');
+        // ถ้าหาไม่เจอ ก็เปลี่ยนเป็นแจ้งเตือน Error
+        Swal.fire({
+          title: 'ไม่พบข้อมูล!',
+          text: 'ไม่มีรหัสนักเรียนนี้ในระบบครับ',
+          icon: 'error',
+          confirmButtonColor: '#FFD200'
+        });
       }
     } else {
       Swal.fire('ข้อมูลไม่ครบถ้วน!', 'กรุณากรอกรหัสให้ครบ 5 หลักครับ', 'warning');

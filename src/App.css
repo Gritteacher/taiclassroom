@@ -1,6 +1,15 @@
 /* src/App.css */
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Poppins:wght@500;600;700&display=swap');
 
+/* บังคับใช้ฟอนต์ Sarabun กับทุกส่วน รวมถึงช่องกรอกข้อความและปุ่ม */
+body, input, button, select, textarea {
+  font-family: 'Sarabun', sans-serif !important;
+}
+
+/* ยกเว้นชื่อเว็บไซต์ภาษาอังกฤษ ให้ใช้ Poppins เพื่อความเท่ */
+.website-title {
+  font-family: 'Poppins', sans-serif !important; 
+}
 :root {
   /* TSN Colors */
   --tsn-green: #00763D;
@@ -37,18 +46,36 @@ body {
 }
 
 /* --- Header --- */
-.header {
-  width: 100%;
-  padding: 20px 40px;
-  background-color: var(--card-bg);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-sizing: border-box;
+/* --- ปรับปรุง Header ชนิดจัดเต็ม --- */
+  .header {
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+    padding: 25px 20px; /* เพิ่มพื้นที่กรอบบน-ล่าง ให้ดูโปร่งขึ้น */
+    gap: 18px; /* เพิ่มระยะห่างระหว่าง (กลุ่มโลโก้+ชื่อ) กับ (ป้าย ม.6) */
+    border-bottom: 2px solid var(--tsn-yellow); 
+  }
+
+  .logo-container {
+    flex-direction: column; 
+    align-items: center;
+    gap: 15px; /* เพิ่มระยะห่างระหว่าง โลโก้ กับ ชื่อเว็บ */
+  }
+
+  .school-logo {
+    height: 55px; /* ปรับโลโก้ให้ใหญ่ขึ้นนิดนึง ให้สมดุล */
+    margin: 0;
+  }
+
+  .website-title {
+    font-size: 22px; /* ปรับขนาดตัวหนังสือให้พอดี */
+    line-height: 1.4; /* เพิ่มระยะห่างระหว่างบรรทัด (ถ้าชื่อเว็บโดนปัดตก) */
+  }
+
+  .class-info {
+    font-size: 15px;
+    padding: 6px 15px;
+    margin-top: 5px;
 }
 
 .logo-container {
@@ -174,6 +201,21 @@ body {
 .login-button:hover {
   background-color: var(--tsn-yellow-dark);
   transform: scale(1.02); /* ขยายใหญ่เล็กน้อย */
+}
+.login-button:hover {
+  background-color: var(--tsn-yellow-dark);
+  transform: scale(1.02); /* ขยายใหญ่เล็กน้อยตอนเอาเมาส์ชี้ */
+}
+
+/* เพิ่มส่วนนี้เข้าไปใหม่: เอฟเฟกต์ตอนกดปุ่ม (จิ้มแล้วยุบ) */
+.login-button:active {
+  transform: scale(0.95); 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* เพิ่มส่วนนี้เข้าไปใหม่: เอฟเฟกต์ตอนกดปุ่ม (จิ้มแล้วยุบ) */
+.login-button:active {
+  transform: scale(0.95); 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* --- Footer --- */
